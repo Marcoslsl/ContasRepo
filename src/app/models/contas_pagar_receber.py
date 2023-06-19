@@ -10,6 +10,11 @@ class ContaPagarReceberResponse(BaseModel):
     valor: Decimal
     tipo: str
 
+    class Config:
+        """Configs."""
+
+        orm_mode = True
+
 
 class ContaPagarReceberRequest(BaseModel):
     """Contas a pagar e receber."""

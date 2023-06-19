@@ -1,5 +1,8 @@
 from typing import List
-from fastapi import APIRouter
+from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
+from src.infra.configs.dependencies import get_db
+from src.infra.entities.conta_pagar_receber import ContasPagarReceber
 from src.app.models.contas_pagar_receber import (
     ContaPagarReceberRequest,
     ContaPagarReceberResponse,
@@ -9,18 +12,21 @@ router = APIRouter(prefix="/contas-a-pagar-e-receber")
 
 
 @router.get("", response_model=List[ContaPagarReceberResponse])
-def listar_contas():
+def listar_contas(
+    db: Session = Depends(get_db),
+) -> List[ContaPagarReceberResponse]:
     """Listar contas."""
-    return [
-        ContaPagarReceberResponse(
-            id=1, description="alugel", valor=100.70, tipo="pagar"
-        )
-    ]
+    return db.query(ContasPagarReceber).all()
 
 
 @router.post("", response_model=ContaPagarReceberResponse, status_code=201)
-def criar_conta(conta: ContaPagarReceberRequest):
+def criar_conta(
+    conta: ContaPagarReceberRequest, db: Session = Depends(get_db)
+) -> ContaPagarReceberResponse:
     """Criar conta."""
-    return ContaPagarReceberResponse(
-        id=3, description=conta.description, valor=conta.valor, tipo=conta.tipo
-    )
+    contas = ContasPagarReceber(**conta.dict())
+    db.add(contas)
+    db.commit()
+    db.refresh(contas)
+
+    return contas
