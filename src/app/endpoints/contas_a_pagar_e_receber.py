@@ -8,7 +8,7 @@ from src.app.models.contas_pagar_receber import (
 router = APIRouter(prefix="/contas-a-pagar-e-receber")
 
 
-@router.get("/", response_model=List[ContaPagarReceberResponse])
+@router.get("", response_model=List[ContaPagarReceberResponse])
 def listar_contas():
     """Listar contas."""
     return [
@@ -18,7 +18,7 @@ def listar_contas():
     ]
 
 
-@router.post("/", response_model=ContaPagarReceberResponse, status_code=201)
+@router.post("", response_model=ContaPagarReceberResponse, status_code=201)
 def criar_conta(conta: ContaPagarReceberRequest):
     """Criar conta."""
     return ContaPagarReceberResponse(
