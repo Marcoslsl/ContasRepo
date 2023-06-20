@@ -16,6 +16,7 @@ repos:
         entry: pydocstyle
         language: system
         stages: [commit]
+        exclude: alembic/.*
 -   repo: local
     hooks:
       - id: pycodestyle
@@ -24,6 +25,7 @@ repos:
         language: system
         stages: [commit]
         types: [python]
+        exclude: alembic/.*
 -   repo: local
     hooks:
       - id: requirements
