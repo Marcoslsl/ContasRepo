@@ -1,6 +1,7 @@
 from typing import List
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from src.app.erros.exceptions import NotFound
 from src.infra.configs.dependencies import get_db
 from src.infra.entities.conta_pagar_receber import ContasPagarReceber
 from src.app.models.contas_pagar_receber import (
@@ -23,9 +24,9 @@ def listar_contas(
 def get_unique_conta(
     id_conta: int,
     db: Session = Depends(get_db),
-) -> List[ContaPagarReceberResponse]:
+) -> ContaPagarReceberResponse:
     """Listar conta."""
-    conta = db.query(ContasPagarReceber).get(id_conta)
+    conta = busca_conta_por_id(id_conta, db)
     return conta
 
 
@@ -51,7 +52,7 @@ def update_conta(
     db: Session = Depends(get_db),
 ) -> ContaPagarReceberResponse:
     """Update."""
-    conta_pagar_receber = db.query(ContasPagarReceber).get(id_conta)
+    conta_pagar_receber = busca_conta_por_id(id_conta, db)
     conta_pagar_receber.tipo = conta.tipo
     conta_pagar_receber.valor = conta.valor
     conta_pagar_receber.description = conta.description
@@ -65,6 +66,14 @@ def update_conta(
 @router.delete("/{id_conta}", status_code=204)
 def delete_conta(id_conta: int, db: Session = Depends(get_db)) -> None:
     """Delete."""
-    conta = db.query(ContasPagarReceber).get(id_conta)
+    conta = busca_conta_por_id(id_conta, db)
     db.delete(conta)
     db.commit()
+
+
+def busca_conta_por_id(id_conta: int, db: Session) -> ContasPagarReceber:
+    """Get count by id."""
+    conta = db.get(ContasPagarReceber, id_conta)
+    if conta is None:
+        raise NotFound("conta a pagar e receber")
+    return conta

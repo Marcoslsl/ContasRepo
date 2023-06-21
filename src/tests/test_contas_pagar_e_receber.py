@@ -12,11 +12,11 @@ SQLALCHEMY_DATABASE_URL = "sqlite:///./src/tests/test.db"
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )
-testingSessionLocal = sessionmaker(autocommit=False, bind=engine)
+SessionLocal = sessionmaker(bind=engine)
 
 
 def override_get_db():
-    db = testingSessionLocal()
+    db = SessionLocal()
     try:
         yield db
     finally:
@@ -36,8 +36,6 @@ def test_criar_conta():
 
 
 def test_listar_contas():
-    # Base.metadata.drop_all(engine)
-    # Base.metadata.create_all(engine)
     response = client.get("/contas-a-pagar-e-receber")
     assert response.status_code == 200
     assert isinstance(response.json(), List)
@@ -49,9 +47,6 @@ def test_listar_conta_unica():
 
 
 def test_update_conta():
-    # nova_conta = {"description": "test", "valor": 10, "tipo": "PAGAR"}
-    # response = client.post("/contas-a-pagar-e-receber", json=nova_conta)
-    # id = response.json()['id']
     id = 1
     nova_conta = {"description": "testUpdate", "valor": 10, "tipo": "PAGAR"}
     response = client.put(f"/contas-a-pagar-e-receber/{id}", json=nova_conta)
@@ -85,3 +80,8 @@ def test_return_error_tipo():
     data = {"description": "description", "valor": 1, "tipo": "test"}
     response = client.post("/contas-a-pagar-e-receber", json=data)
     assert response.status_code == 422
+
+
+def test_return_not_found():
+    response = client.get("/contas-a-pagar-e-receber/100")
+    assert response.status_code == 404
