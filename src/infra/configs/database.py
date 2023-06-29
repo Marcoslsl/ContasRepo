@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 
 host = "localhost"
 port = "3306"
-database = "pipeline_db"
+database = "contas_database"
 user = "root"
 password = "1234"
 

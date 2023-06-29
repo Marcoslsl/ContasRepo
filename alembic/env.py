@@ -4,6 +4,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from src.infra.configs.base import Base
 from src.infra.entities.conta_pagar_receber import ContasPagarReceber
+from src.infra.entities.fornecedor_cliente import FornecedorCliente
 from alembic import context
 
 # this is the Alembic Config object, which provides

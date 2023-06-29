@@ -15,9 +15,9 @@ app.add_exception_handler(NotFound, not_found_exception_handler)
 
 
 @app.get("/")
-def main() -> str:
+def home() -> str:
     """Test main func."""
-    return "hello world"
+    return "home"
 
 
 if __name__ == "__main__":
