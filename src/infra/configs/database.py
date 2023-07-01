@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-host = "mysql_db"
+# host = "mysql_db" - local
+host = "104.197.171.22"
 port = "3306"
 database = "contas_database"
 user = "root"
