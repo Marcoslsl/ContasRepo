@@ -1,11 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-host = "localhost"
+host = "mysql_db"
 port = "3306"
 database = "contas_database"
 user = "root"
 password = "1234"
+
 
 # Criando a string de conexão
 connection_string = (
