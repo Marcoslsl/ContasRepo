@@ -7,13 +7,23 @@ from src.infra.entities.conta_pagar_receber import ContasPagarReceber
 from src.infra.entities.user_auth import UserAuth
 from src.app.erros.exceptions import *
 
-# Base.metadata.drop_all(bind=engine)
-# Base.metadata.create_all(bind=engine)
+Base.metadata.drop_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.include_router(router)
 app.add_exception_handler(NotFound, not_found_exception_handler)
 app.add_exception_handler(BadRequest, bad_request_exception_handler)
+
+
+# Middleware
+@app.middleware("http")
+async def processar_tempo_requisicao(request: Request, next):
+    """Middleware teste."""
+    print("interceptou...")
+    response = await next(request)
+    print("interceptou a volta...")
+    return response
 
 
 @app.get("/")
