@@ -7,8 +7,8 @@ from src.infra.entities.conta_pagar_receber import ContasPagarReceber
 from src.infra.entities.user_auth import UserAuth
 from src.app.erros.exceptions import *
 
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
+# Base.metadata.drop_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.include_router(router)

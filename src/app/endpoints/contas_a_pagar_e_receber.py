@@ -14,6 +14,7 @@ from src.app.models.contas_pagar_receber import (
     ContasPagarRerecerTipo,
     PrevisaoPorMes,
 )
+from .auth.auth_utils import obter_usuario_logado
 
 router = APIRouter(prefix="/contas-a-pagar-e-receber")
 

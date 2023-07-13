@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from src.app.models.user_auth import User, UserNoPwd
 from src.infra.entities.user_auth import UserAuth
-from src.infra.configs.database import engine
 from .repo_interface import RepoInterface
 
 
