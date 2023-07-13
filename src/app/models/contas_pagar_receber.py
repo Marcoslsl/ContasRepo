@@ -46,3 +46,8 @@ class ContaPagarReceberRequest(BaseModel):
     tipo: ContasPagarRerecerTipo
     fornecedor_cliente_id: int | None = None
     data_previsao: date
+
+    class Config:
+        """Configs orm."""
+
+        orm_mode = True

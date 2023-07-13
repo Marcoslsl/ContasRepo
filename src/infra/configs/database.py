@@ -2,7 +2,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # host = "mysql_db" - local
-host = "104.197.171.22"
+# host = "34.173.48.19"
+# host = "mysql_db"
+host = "localhost"
 port = "3306"
 database = "contas_database"
 user = "root"
