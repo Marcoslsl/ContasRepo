@@ -1,11 +1,11 @@
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, BackgroundTasks
 from src.app.routes import router
 from src.infra.configs.database import engine
 from src.infra.configs.base import Base
 from src.infra.entities.conta_pagar_receber import ContasPagarReceber
-from src.infra.entities.user_auth import UserAuth
 from src.app.erros.exceptions import *
+from src.job.write_notification import write_notification
 
 Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
@@ -24,6 +24,14 @@ async def processar_tempo_requisicao(request: Request, next):
     response = await next(request)
     print("interceptou a volta...")
     return response
+
+
+# Backgroundtask - works as a rabbitMq
+@app.post("/send-email/{email}")
+def send_email(email: str, background: BackgroundTasks):
+    """Background task."""
+    background.add_task(write_notification, email, "menssagem teste")
+    return {"OK": "menssagem enviada"}
 
 
 @app.get("/")

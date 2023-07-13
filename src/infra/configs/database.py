@@ -3,8 +3,8 @@ from sqlalchemy.orm import sessionmaker
 
 # host = "mysql_db" - local
 # host = "34.173.48.19"
-# host = "mysql_db"
-host = "localhost"
+host = "mysql_db"
+# host = "localhost"
 port = "3306"
 database = "contas_database"
 user = "root"
