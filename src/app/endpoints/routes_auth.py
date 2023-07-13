@@ -23,7 +23,7 @@ def signup(usuario: User, Session: Session = Depends(get_db)):
     """Signup."""
     repo = UserRepo(Session)
 
-    user_found = repo.get_user(usuario.user)
+    user_found = repo.get(usuario.user)
     if len(user_found) != 0:
         raise BadRequest("User already exists")
 
